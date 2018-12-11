@@ -6,7 +6,6 @@
     <title>Pomodoro Clock</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="pomodoro.css" />
-    <script src="pomodoro.js"></script>
 </head>
 <body>
 
@@ -14,7 +13,7 @@
     
     <div id="pomodoro-clock">
 
-        <div>
+        <div id="break">
             <div id="break-label">Break Length</div>
             <div id="break-length">5</div>
             <!-- not lower then 0 -->
@@ -30,18 +29,21 @@
             <button id="session-decrement">-</button>
         </div>
 
-        <div>
+        <div id="timer">
             <label for="Session" id="timer-label">Session</label>
-            <div id="time-left">25:00</div>
+            <div id="time-left">01:00</div>
             <button id="start_stop">start/stop</button>
             <button id="reset">reset</button>
 
-            <audio src="" id="beep"></audio>
+          
 
         </div>
+
+        <audio src="" id="beep"></audio>
 
     </div>
 
 
 </body>
+<script src="pomodoro.js"></script>
 </html>
