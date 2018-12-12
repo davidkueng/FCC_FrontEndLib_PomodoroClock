@@ -15,6 +15,8 @@ document.getElementById('time-left').innerHTML = document.getElementById('sessio
 document.getElementById('session-increment').addEventListener('click', () => {
     if (sessionMinutes < 60) {
     sessionMinutes++
+    console.log(sessionMinutes)
+    console.log(sessionDuration)
     sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
     document.getElementById('session-length').innerHTML = sessionMinutes + ':' + seconds
     document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
@@ -54,12 +56,12 @@ document.getElementById('break-decrement').addEventListener('click', () => {
     }
 });
 
-let sessionDuration = 2 * sessionMinutes;
-let breakDuration = 3 * breakMinutes;
+let sessionDuration = 60 * sessionMinutes;
+let breakDuration = 60 * breakMinutes;
 
-let clock = (duration, display) => {
+let pomodoroClock = (duration, display) => {
     let timer = duration, minutes, seconds;
-    setInterval(() => {
+    let interval = setInterval(() => {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -74,19 +76,26 @@ let clock = (duration, display) => {
             timer = duration = breakDuration;
             document.getElementById('timer-label').innerHTML = 'Break';   
             // play audio here     
-        }
-
-        else if (timer === -1 && duration === breakDuration) {
+        } else if (timer === -1 && duration === breakDuration) {
             timer = duration = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
         }
     }, 1000);
+
+    document.getElementById('reset').addEventListener('click', () => {
+        clearInterval(interval);
+        console.log(duration)
+        document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
+    })
 };
 
-document.getElementById('start_stop').addEventListener('click', ()=> {
-    display = document.querySelector('#time-left');        
-    clock(sessionDuration, display);
+document.getElementById('start_stop').addEventListener('click', () => {
+    display = document.querySelector('#time-left');
+    console.log(sessionDuration)
+    pomodoroClock(sessionDuration, display);
 });
+
+
 
 
 
