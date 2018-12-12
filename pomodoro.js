@@ -17,6 +17,7 @@ document.getElementById('session-increment').addEventListener('click', () => {
     sessionMinutes++
     sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
     document.getElementById('session-length').innerHTML = sessionMinutes + ':' + seconds
+    document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
     } else {
         return false
         }
@@ -37,6 +38,7 @@ document.getElementById('session-decrement').addEventListener('click', () => {
     sessionMinutes--
     sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
     document.getElementById('session-length').innerHTML = sessionMinutes + ':' + seconds
+    document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
     } else {
         return false
     }
@@ -52,6 +54,9 @@ document.getElementById('break-decrement').addEventListener('click', () => {
     }
 });
 
+let sessionDuration = 2 * sessionMinutes;
+let breakDuration = 3 * breakMinutes;
+
 let clock = (duration, display) => {
     let timer = duration, minutes, seconds;
     setInterval(() => {
@@ -63,48 +68,28 @@ let clock = (duration, display) => {
 
         display.textContent = minutes + ":" + seconds;
 
-        if (--timer < 0) {
-            timer = duration;
+        --timer
+
+        if (timer === -1 && duration === sessionDuration) {
+            timer = duration = breakDuration;
+            document.getElementById('timer-label').innerHTML = 'Break';   
+            // play audio here     
+        }
+
+        else if (timer === -1 && duration === breakDuration) {
+            timer = duration = sessionDuration;
+            document.getElementById('timer-label').innerHTML = 'Session';
         }
     }, 1000);
 };
 
 document.getElementById('start_stop').addEventListener('click', ()=> {
-   
-    let sessionDuration = 60 * sessionMinutes,
-    breakDuration = 60 * breakMinutes;
-
-    display = document.querySelector('#time-left');   
-
-    console.log('time')
-     
-    clock(sessionDuration, display); // does not start because of interval 1000
-    clock(breakDuration, display);  
-   
-// start the break timer
-// startTimer again
+    display = document.querySelector('#time-left');        
+    clock(sessionDuration, display);
 });
 
 
-// pause === use clearInterval ?
 
-
-// function MyTimer(callback, val) {
-//     val = val || 60; 
-//     var timer=setInterval(function() { 
-//         callback(val);
-//         if(val-- <= 0) { 
-//             clearInterval(timer); 
-//         } 
-//     }, 1000);
-// }
-// new MyTimer(function(val) {
-    
-//     document.getElementById('start_stop').addEventListener('click', ()=> {
-//         var timerMsg = "00:" + (val >= 10 ? val : "0" + val);
-//     document.getElementById("time-left").textContent = timerMsg; 
-//     })
-// });
 
 // ===========
 // TODOS:
