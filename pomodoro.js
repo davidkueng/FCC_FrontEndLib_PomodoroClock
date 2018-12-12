@@ -1,8 +1,11 @@
 let minutes = 0;
 let seconds = 0;
 
-sessionMinutes = 2;
+sessionMinutes = 25;
 breakMinutes = 1
+
+let sessionDuration = 60 * sessionMinutes,
+    breakDuration = 60 * breakMinutes;
 
 breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
 sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
@@ -15,8 +18,7 @@ document.getElementById('time-left').innerHTML = document.getElementById('sessio
 document.getElementById('session-increment').addEventListener('click', () => {
     if (sessionMinutes < 60) {
     sessionMinutes++
-    console.log(sessionMinutes)
-    console.log(sessionDuration)
+    sessionDuration = 60 * sessionMinutes;
     sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
     document.getElementById('session-length').innerHTML = sessionMinutes + ':' + seconds
     document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
@@ -28,6 +30,7 @@ document.getElementById('session-increment').addEventListener('click', () => {
 document.getElementById('break-increment').addEventListener('click', () => {
     if (breakMinutes < 60) {
     breakMinutes++
+    breakDuration = 60 * breakMinutes;
     breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
     document.getElementById('break-length').innerHTML = breakMinutes + ':' + seconds
     } else {
@@ -38,6 +41,7 @@ document.getElementById('break-increment').addEventListener('click', () => {
 document.getElementById('session-decrement').addEventListener('click', () => {
     if (sessionMinutes > 0) {
     sessionMinutes--
+    sessionDuration = 60 * sessionMinutes;
     sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
     document.getElementById('session-length').innerHTML = sessionMinutes + ':' + seconds
     document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
@@ -49,15 +53,13 @@ document.getElementById('session-decrement').addEventListener('click', () => {
 document.getElementById('break-decrement').addEventListener('click', () => {
     if (breakMinutes > 0) {
     breakMinutes--
+    breakDuration = 60 * breakMinutes;
     breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
     document.getElementById('break-length').innerHTML = breakMinutes + ':' + seconds
     } else {
         return false
     }
 });
-
-let sessionDuration = 60 * sessionMinutes;
-let breakDuration = 60 * breakMinutes;
 
 let pomodoroClock = (duration, display) => {
     let timer = duration, minutes, seconds;
@@ -84,24 +86,18 @@ let pomodoroClock = (duration, display) => {
 
     document.getElementById('reset').addEventListener('click', () => {
         clearInterval(interval);
-        console.log(duration)
         document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
     })
 };
 
-document.getElementById('start_stop').addEventListener('click', () => {
+document.getElementById('start_stop').addEventListener('click', () => {    
     display = document.querySelector('#time-left');
-    console.log(sessionDuration)
     pomodoroClock(sessionDuration, display);
 });
-
-
-
-
 
 
 // ===========
 // TODOS:
 // make stop -> resume Work
-// make reset work
 // refactor click handler (with a class maybe)
+// implement audio 
