@@ -87,7 +87,8 @@ let pomodoroClock = (duration, display) => {
     document.getElementById('reset').addEventListener('click', () => {
         clearInterval(interval);
         document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
-    })
+        // does not work when break is active
+    });
 };
 
 document.getElementById('start_stop').addEventListener('click', () => {    
@@ -99,5 +100,5 @@ document.getElementById('start_stop').addEventListener('click', () => {
 // ===========
 // TODOS:
 // make stop -> resume Work
-// refactor click handler (with a class maybe)
 // implement audio 
+// refactor everything! (with a classes maybe, use minutes only once)
