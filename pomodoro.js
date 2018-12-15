@@ -1,7 +1,7 @@
 let minutes = 0;
 let seconds = 0;
 
-sessionMinutes = 25;
+sessionMinutes = 1;
 breakMinutes = 1
 
 let sessionDuration = 60 * sessionMinutes,
@@ -82,14 +82,31 @@ let pomodoroClock = (duration, display) => {
             timer = duration = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
         }
+
     }, 1000);
+
+
+    console.log(timer)
+    console.log(duration)
+//     if (--timer < duration) {
+//     document.getElementById('start_stop').addEventListener('click', () => {
+//         clearInterval(interval)
+//     })
+// }
 
     document.getElementById('reset').addEventListener('click', () => {
         clearInterval(interval);
         document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
-        // does not work when break is active
+        timer = duration = sessionDuration;
+        document.getElementById('timer-label').innerHTML = 'Session';
     });
 };
+
+// if (timer < duration) {
+//     document.getElementById('start_stop').addEventListener('click', () => {
+//         clearInterval(interval)
+//     })
+// }
 
 document.getElementById('start_stop').addEventListener('click', () => {    
     display = document.querySelector('#time-left');
