@@ -4,8 +4,8 @@ let seconds = 0;
 sessionMinutes = 2;
 breakMinutes = 1
 
-let sessionDuration = 60 * sessionMinutes,
-    breakDuration = 60 * breakMinutes;
+let sessionDuration = 3 * sessionMinutes,
+    breakDuration = 2 * breakMinutes;
 
 let display = document.querySelector('#time-left');
 
@@ -63,6 +63,7 @@ document.getElementById('break-decrement').addEventListener('click', () => {
     }
 });
 
+
 let pomodoroClock = (duration, display) => {
     let timer = duration, minutes, seconds;
     
@@ -89,23 +90,26 @@ let pomodoroClock = (duration, display) => {
 
     }, 1000);
 
-    document.getElementById('start_stop').addEventListener('click', () => {     
-        if (started) { 
-       console.log('stopped')        
-        clearInterval(interval)      
-        started = false       
-        } else if (!started) {            
-            pomodoroClock(timer, display)
-           started = true
-           console.log('restarted')
-        }
-    });
+    // document.getElementById('start_stop').addEventListener('click', () => {  
+    //     if (started) { 
+    //    console.log('stopped')     
+    //     clearInterval(interval)   
+    //     started = false     
+    //     console.log(started)    
+    //     } else {                         
+    //         pomodoroClock(timer, display)
+    //         started = true
+    //         console.log('restarted')
+    //         console.log(timer)  
+    //         console.log(started)  
+    //     }
+    // });
 
     document.getElementById('reset').addEventListener('click', () => {
         clearInterval(interval);
         document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
         timer = duration = sessionDuration;
-        document.getElementById('timer-label').innerHTML = 'Session';
+        document.getElementById('timer-label').innerHTML = 'Session'
     });
 };
 
@@ -114,10 +118,12 @@ document.getElementById('start_stop').addEventListener('click', () => {
     if (display.textContent === sessionMinutes + ':' + 0 + 0) { 
     console.log('started') 
     pomodoroClock(sessionDuration, display)
+    } else {
+        clearInterval(interval)
     }
 });
 
-let started = true
+// let started = true
 
 //display.textContent === sessionMinutes + ':' + 0 + 0
 
@@ -127,3 +133,4 @@ let started = true
 // implement audio 
 // refactor everything! (with a classes maybe, use minutes only once)
 // make inc/dec unclickable if timer is running
+// pause/resume breaks the break/session toggle
