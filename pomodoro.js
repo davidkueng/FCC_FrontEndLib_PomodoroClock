@@ -63,9 +63,8 @@ document.getElementById('break-decrement').addEventListener('click', () => {
     }
 });
 
-
 let pomodoroClock = (duration, display) => {
-    let timer = duration, minutes, seconds;
+    timer = duration, minutes, seconds;
     
     interval = setInterval(() => {
       
@@ -87,40 +86,27 @@ let pomodoroClock = (duration, display) => {
             timer = duration = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
         }
-
     }, 1000);
-
-    // document.getElementById('start_stop').addEventListener('click', () => {  
-    //     if (started) { 
-    //    console.log('stopped')     
-    //     clearInterval(interval)   
-    //     started = false     
-    //     console.log(started)    
-    //     } else {                         
-    //         pomodoroClock(timer, display)
-    //         started = true
-    //         console.log('restarted')
-    //         console.log(timer)  
-    //         console.log(started)  
-    //     }
-    // });
-
-    document.getElementById('reset').addEventListener('click', () => {
-        clearInterval(interval);
-        document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
-        timer = duration = sessionDuration;
-        document.getElementById('timer-label').innerHTML = 'Session'
-    });
 };
-
 
 document.getElementById('start_stop').addEventListener('click', () => {  
     if (display.textContent === sessionMinutes + ':' + 0 + 0) { 
-    console.log('started') 
     pomodoroClock(sessionDuration, display)
-    } else {
+    started = true
+    } else if (started) {
         clearInterval(interval)
+        started = false
+    } else {
+        pomodoroClock(timer, display)
+        started = true
     }
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+    clearInterval(interval);
+    document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
+    timer = duration = sessionDuration;
+    document.getElementById('timer-label').innerHTML = 'Session'
 });
 
 // let started = true
