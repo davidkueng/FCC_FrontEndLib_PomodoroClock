@@ -78,7 +78,7 @@ let pomodoroClock = (duration, display) => {
 
         --timer
 
-        if (timer === -1 && duration === sessionDuration) {
+        if (timer === -1 && duration === sessionDuration | timer) {
             timer = duration = breakDuration;
             document.getElementById('timer-label').innerHTML = 'Break';   
             // play audio here     
@@ -91,7 +91,8 @@ let pomodoroClock = (duration, display) => {
 
 document.getElementById('start_stop').addEventListener('click', () => {  
     if (display.textContent === sessionMinutes + ':' + 0 + 0) { 
-    pomodoroClock(sessionDuration, display)
+    timer = sessionDuration
+    pomodoroClock(timer, display)
     started = true
     } else if (started) {
         clearInterval(interval)
@@ -109,9 +110,14 @@ document.getElementById('reset').addEventListener('click', () => {
     document.getElementById('timer-label').innerHTML = 'Session'
 });
 
-// let started = true
-
-//display.textContent === sessionMinutes + ':' + 0 + 0
+// if (timer === -1 && duration === sessionDuration | timer) {
+//     timer = duration = breakDuration;
+//     document.getElementById('timer-label').innerHTML = 'Break';   
+//     // play audio here     
+// } else if (timer === -1 && duration === breakDuration | timer) {
+//     timer = duration = sessionDuration;
+//     document.getElementById('timer-label').innerHTML = 'Session';
+// }
 
 // ===========
 // TODOS:
