@@ -61,7 +61,7 @@ document.getElementById('break-decrement').addEventListener('click', () => {
 
 let display = document.querySelector('#time-left');
 
-let pomodoroClock = (duration, display) => {
+pomodoroClock = (duration, display) => {
     timer = duration
     
     interval = setInterval(() => {
@@ -76,11 +76,10 @@ let pomodoroClock = (duration, display) => {
 
         --timer
 
-        if (timer === -1 && duration === sessionDuration) {
-            duration = breakDuration;
-            timer = breakDuration;
+        if (timer === -1 && duration === sessionDuration || timer === -1 && duration === stoppedTime) {
+            duration = timer = breakDuration;
             document.getElementById('timer-label').innerHTML = 'Break';   
-            document.getElementById('beep').play();
+            // document.getElementById('beep').play();
         } else if (timer === -1 && duration === breakDuration) {
             duration = timer = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
@@ -89,14 +88,18 @@ let pomodoroClock = (duration, display) => {
 };
 
 document.getElementById('start_stop').addEventListener('click', () => {  
+    
     if (display.textContent === sessionMinutes + ':' + 0 + 0) { 
     pomodoroClock(sessionDuration, display)
     started = true
     } else if (started) {
         clearInterval(interval)
+        document.getElementById('beep').pause();
         started = false
     } else {
         pomodoroClock(timer, display)
+        stoppedTime = timer;
+        console.log(stoppedTime)
         started = true
     }
 });
@@ -105,13 +108,12 @@ document.getElementById('reset').addEventListener('click', () => {
     clearInterval(interval);
     document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
     timer = duration = sessionDuration;
+    document.getElementById('beep').pause();
     document.getElementById('timer-label').innerHTML = 'Session'
 });
 
 // ===========
 // TODOS:
-// make stop -> resume Work
-// implement audio 
-// refactor everything! (with a classes maybe, use minutes only once)
+// refactor everything! (with a classes maybe)
 // make inc/dec unclickable if timer is running
 // pause/resume breaks the break/session toggle
