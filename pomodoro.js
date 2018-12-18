@@ -1,13 +1,9 @@
-let minutes = 0;
-let seconds = 0;
+let sessionMinutes = 2,
+breakMinutes = 1,
+seconds = 0;
 
-sessionMinutes = 2;
-breakMinutes = 1
-
-let sessionDuration = 3 * sessionMinutes,
-    breakDuration = 2 * breakMinutes;
-
-let display = document.querySelector('#time-left');
+let sessionDuration = 60 * sessionMinutes,
+    breakDuration = 60 * breakMinutes;
 
 breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
 sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
@@ -29,17 +25,6 @@ document.getElementById('session-increment').addEventListener('click', () => {
         }
 });
 
-document.getElementById('break-increment').addEventListener('click', () => {
-    if (breakMinutes < 60) {
-    breakMinutes++
-    breakDuration = 60 * breakMinutes;
-    breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
-    document.getElementById('break-length').innerHTML = breakMinutes + ':' + seconds
-    } else {
-        return false
-        }
-});
-
 document.getElementById('session-decrement').addEventListener('click', () => {
     if (sessionMinutes > 0) {
     sessionMinutes--
@@ -50,6 +35,17 @@ document.getElementById('session-decrement').addEventListener('click', () => {
     } else {
         return false
     }
+});
+
+document.getElementById('break-increment').addEventListener('click', () => {
+    if (breakMinutes < 60) {
+    breakMinutes++
+    breakDuration = 60 * breakMinutes;
+    breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
+    document.getElementById('break-length').innerHTML = breakMinutes + ':' + seconds
+    } else {
+        return false
+        }
 });
 
 document.getElementById('break-decrement').addEventListener('click', () => {
@@ -63,8 +59,10 @@ document.getElementById('break-decrement').addEventListener('click', () => {
     }
 });
 
+let display = document.querySelector('#time-left');
+
 let pomodoroClock = (duration, display) => {
-    timer = duration, minutes, seconds;
+    timer = duration
     
     interval = setInterval(() => {
       
@@ -79,20 +77,20 @@ let pomodoroClock = (duration, display) => {
         --timer
 
         if (timer === -1 && duration === sessionDuration | timer) {
-            timer = duration = breakDuration;
+            duration = breakDuration;
+            timer = breakDuration;
             document.getElementById('timer-label').innerHTML = 'Break';   
             // play audio here     
         } else if (timer === -1 && duration === breakDuration) {
-            timer = duration = sessionDuration;
+            duration = timer = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
-        }
+        } 
     }, 1000);
 };
 
 document.getElementById('start_stop').addEventListener('click', () => {  
     if (display.textContent === sessionMinutes + ':' + 0 + 0) { 
-    timer = sessionDuration
-    pomodoroClock(timer, display)
+    pomodoroClock(sessionDuration, display)
     started = true
     } else if (started) {
         clearInterval(interval)
