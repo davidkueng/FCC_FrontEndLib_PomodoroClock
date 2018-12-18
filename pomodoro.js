@@ -2,8 +2,8 @@ let sessionMinutes = 2,
 breakMinutes = 1,
 seconds = 0;
 
-let sessionDuration = 60 * sessionMinutes,
-    breakDuration = 60 * breakMinutes;
+let sessionDuration = 3 * sessionMinutes,
+    breakDuration = 2 * breakMinutes;
 
 breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
 sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
@@ -76,11 +76,11 @@ let pomodoroClock = (duration, display) => {
 
         --timer
 
-        if (timer === -1 && duration === sessionDuration | timer) {
+        if (timer === -1 && duration === sessionDuration) {
             duration = breakDuration;
             timer = breakDuration;
             document.getElementById('timer-label').innerHTML = 'Break';   
-            // play audio here     
+            document.getElementById('beep').play();
         } else if (timer === -1 && duration === breakDuration) {
             duration = timer = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
@@ -107,15 +107,6 @@ document.getElementById('reset').addEventListener('click', () => {
     timer = duration = sessionDuration;
     document.getElementById('timer-label').innerHTML = 'Session'
 });
-
-// if (timer === -1 && duration === sessionDuration | timer) {
-//     timer = duration = breakDuration;
-//     document.getElementById('timer-label').innerHTML = 'Break';   
-//     // play audio here     
-// } else if (timer === -1 && duration === breakDuration | timer) {
-//     timer = duration = sessionDuration;
-//     document.getElementById('timer-label').innerHTML = 'Session';
-// }
 
 // ===========
 // TODOS:
