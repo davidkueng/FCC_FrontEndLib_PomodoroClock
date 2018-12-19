@@ -1,37 +1,35 @@
-let sessionMinutes = 2,
-    breakMinutes = 1,
+let sessionMinutes = 25,
+    breakMinutes = 5,
     displaySeconds = 0;
 
-let sessionDuration = 3 * sessionMinutes,
-    breakDuration = 2 * breakMinutes;
+let sessionDuration = 60 * sessionMinutes,
+    breakDuration = 60 * breakMinutes;
 
-breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
-sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
 displaySeconds = displaySeconds < 10 ? "0" + displaySeconds : displaySeconds;
 
-document.getElementById('session-length').innerHTML = sessionMinutes + ':' + displaySeconds;
-document.getElementById('break-length').innerHTML = breakMinutes + ':' + displaySeconds;
-document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
+document.getElementById('session-length').innerHTML = sessionMinutes;
+document.getElementById('break-length').innerHTML = breakMinutes;
+document.getElementById('time-left').innerHTML = sessionMinutes + ':' + displaySeconds;
 
 document.getElementById('session-increment').addEventListener('click', () => {
     if (sessionMinutes < 60) {
     sessionMinutes++
     sessionDuration = 60 * sessionMinutes;
-    sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
-    document.getElementById('session-length').innerHTML = sessionMinutes + ':' + displaySeconds
-    document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
+    document.getElementById('session-length').innerHTML = sessionMinutes
+    sessionMinutes < 10 ? document.getElementById('time-left').innerHTML = '0' + sessionMinutes + ':' + displaySeconds
+    : document.getElementById('time-left').innerHTML = sessionMinutes + ':' + displaySeconds;
     } else {
         return false
         }
 });
 
 document.getElementById('session-decrement').addEventListener('click', () => {
-    if (sessionMinutes > 0) {
+    if (sessionMinutes > 1) {
     sessionMinutes--
     sessionDuration = 60 * sessionMinutes;
-    sessionMinutes = sessionMinutes < 10 ? "0" + sessionMinutes : sessionMinutes;
-    document.getElementById('session-length').innerHTML = sessionMinutes + ':' + displaySeconds
-    document.getElementById('time-left').innerHTML = document.getElementById('session-length').innerHTML
+    document.getElementById('session-length').innerHTML = sessionMinutes
+    sessionMinutes < 10 ? document.getElementById('time-left').innerHTML = '0' + sessionMinutes + ':' + displaySeconds
+    : document.getElementById('time-left').innerHTML = sessionMinutes + ':' + displaySeconds;
     } else {
         return false
     }
@@ -41,19 +39,17 @@ document.getElementById('break-increment').addEventListener('click', () => {
     if (breakMinutes < 60) {
     breakMinutes++
     breakDuration = 60 * breakMinutes;
-    breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
-    document.getElementById('break-length').innerHTML = breakMinutes + ':' + displaySeconds
+    document.getElementById('break-length').innerHTML = breakMinutes
     } else {
         return false
         }
 });
 
 document.getElementById('break-decrement').addEventListener('click', () => {
-    if (breakMinutes > 0) {
+    if (breakMinutes > 1) {
     breakMinutes--
     breakDuration = 60 * breakMinutes;
-    breakMinutes = breakMinutes < 10 ? "0" + breakMinutes : breakMinutes;
-    document.getElementById('break-length').innerHTML = breakMinutes + ':' + displaySeconds
+    document.getElementById('break-length').innerHTML = breakMinutes
     } else {
         return false
     }
@@ -83,30 +79,29 @@ let pomodoroClock = (duration, display) => {
             duration = timer = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
         } else if (timer === -1 && duration === stoppedTime) {
-            console.log('changeTimer')
             if (document.getElementById('timer-label').innerHTML === 'Session') {
                 duration = timer = breakDuration;
                 document.getElementById('timer-label').innerHTML = 'Break'; 
+                // document.getElementById('beep').play();
             } else if (document.getElementById('timer-label').innerHTML === 'Break') {
                 duration = timer = sessionDuration;
                 document.getElementById('timer-label').innerHTML = 'Session';
             }
-            // check the timerlabel to change
         }
     }, 1000);
+
 };
 
 document.getElementById('start_stop').addEventListener('click', () => {   
     display = document.querySelector('#time-left') 
-    if (display.textContent === sessionMinutes + ':' + 0 + 0) { 
+    if (display.textContent === '0' + sessionMinutes + ':' + 0 + 0 || display.textContent === sessionMinutes + ':' + 0 + 0) { 
     pomodoroClock(sessionDuration, display)
     started = true
     } else if (started) {
-        clearInterval(interval)
+        clearInterval(this.interval)
         document.getElementById('beep').pause();
         started = false
         stoppedTime = timer
-        console.log(stoppedTime)
     } else {
         pomodoroClock(stoppedTime, display)
         started = true
@@ -114,17 +109,17 @@ document.getElementById('start_stop').addEventListener('click', () => {
 });
 
 document.getElementById('reset').addEventListener('click', () => {
-    clearInterval(interval);
+    clearInterval(this.interval);
+    sessionMinutes = 25;
+    breakMinutes = 5;
     document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
+    document.getElementById('session-length').innerHTML = sessionMinutes;
+    document.getElementById('break-length').innerHTML = breakMinutes;
     timer = duration = sessionDuration;
     document.getElementById('beep').pause();
     document.getElementById('timer-label').innerHTML = 'Session'
+   
 });
-
-
-
-
-
 
 
 // ===========
