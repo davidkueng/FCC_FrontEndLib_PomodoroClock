@@ -71,25 +71,28 @@ let pomodoroClock = (duration, display) => {
 
         --timer
 
+        // make inc dec buttons unclickable in this func
+
         if (timer === -1 && duration === sessionDuration) {
             duration = timer = breakDuration;
             document.getElementById('timer-label').innerHTML = 'Break';   
-            // document.getElementById('beep').play();
+            document.getElementById('beep').play();
         } else if (timer === -1 && duration === breakDuration) {
             duration = timer = sessionDuration;
             document.getElementById('timer-label').innerHTML = 'Session';
+            document.getElementById('beep').play();
         } else if (timer === -1 && duration === stoppedTime) {
             if (document.getElementById('timer-label').innerHTML === 'Session') {
                 duration = timer = breakDuration;
                 document.getElementById('timer-label').innerHTML = 'Break'; 
-                // document.getElementById('beep').play();
+                document.getElementById('beep').play();
             } else if (document.getElementById('timer-label').innerHTML === 'Break') {
                 duration = timer = sessionDuration;
                 document.getElementById('timer-label').innerHTML = 'Session';
+                document.getElementById('beep').play();
             }
         }
     }, 1000);
-
 };
 
 document.getElementById('start_stop').addEventListener('click', () => {   
@@ -99,7 +102,6 @@ document.getElementById('start_stop').addEventListener('click', () => {
     started = true
     } else if (started) {
         clearInterval(this.interval)
-        document.getElementById('beep').pause();
         started = false
         stoppedTime = timer
     } else {
@@ -117,8 +119,8 @@ document.getElementById('reset').addEventListener('click', () => {
     document.getElementById('break-length').innerHTML = breakMinutes;
     timer = duration = sessionDuration;
     document.getElementById('beep').pause();
-    document.getElementById('timer-label').innerHTML = 'Session'
-   
+    document.getElementById('beep').currentTime = 0;
+    document.getElementById('timer-label').innerHTML = 'Session'   
 });
 
 
@@ -126,4 +128,4 @@ document.getElementById('reset').addEventListener('click', () => {
 // TODOS:
 // refactor everything! (with a classes maybe)
 // make inc/dec unclickable if timer is running
-// pause/resume breaks the break/session toggle
+// use minutes only once in pomodoroClock func
