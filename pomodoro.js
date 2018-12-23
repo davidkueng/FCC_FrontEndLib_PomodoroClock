@@ -55,11 +55,16 @@ document.getElementById('break-decrement').addEventListener('click', () => {
     }
 });
 
+function setIntervalImmediately(func, interval) {
+    func();
+    return setInterval(func, interval);
+  }
+
 let pomodoroClock = (duration, display) => {
 
     timer = duration
-    
-    interval = setInterval(() => {   
+
+    interval = setIntervalImmediately( _ => {
     
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
@@ -69,35 +74,35 @@ let pomodoroClock = (duration, display) => {
 
         display.textContent = minutes + ":" + seconds;
 
-        --timer
+        timer--
 
         // make inc dec buttons unclickable in this func
 
-        if (timer === -1 && duration === sessionDuration) {
-            duration = timer = breakDuration;
-            document.getElementById('timer-label').innerHTML = 'Break';   
-            document.getElementById('beep').play();
-        } else if (timer === -1 && duration === breakDuration) {
-            duration = timer = sessionDuration;
-            document.getElementById('timer-label').innerHTML = 'Session';
-            document.getElementById('beep').play();
-        } else if (timer === -1 && duration === stoppedTime) {
+        if (timer < 0 && duration === sessionDuration) {
+            duration = timer = breakDuration;  
+            document.getElementById('timer-label').innerHTML = 'Break';                         
+            // document.getElementById('beep').play();
+        } else if (timer < 0 && duration === breakDuration) {
+            duration = timer = sessionDuration;           
+            document.getElementById('timer-label').innerHTML = 'Session';            
+            // document.getElementById('beep').play();
+        } else if (timer < 0 && duration === stoppedTime) {
             if (document.getElementById('timer-label').innerHTML === 'Session') {
-                duration = timer = breakDuration;
-                document.getElementById('timer-label').innerHTML = 'Break'; 
-                document.getElementById('beep').play();
+                duration = timer = breakDuration;  
+                document.getElementById('timer-label').innerHTML = 'Break';                               
+                // document.getElementById('beep').play();
             } else if (document.getElementById('timer-label').innerHTML === 'Break') {
-                duration = timer = sessionDuration;
-                document.getElementById('timer-label').innerHTML = 'Session';
-                document.getElementById('beep').play();
+                duration = timer = sessionDuration;                
+                document.getElementById('timer-label').innerHTML = 'Session';                
+                // document.getElementById('beep').play();
             }
-        }
-    }, 1000);
+        }    
+    }, 1000);    
 };
 
 document.getElementById('start_stop').addEventListener('click', () => {   
     display = document.querySelector('#time-left') 
-    if (display.textContent === '0' + sessionMinutes + ':' + 0 + 0 || display.textContent === sessionMinutes + ':' + 0 + 0) { 
+    if (display.textContent === '0' + sessionMinutes + ':' + 0 + 0 || display.textContent === sessionMinutes + ':' + 0 + 0) {
     pomodoroClock(sessionDuration, display)
     started = true
     } else if (started) {
