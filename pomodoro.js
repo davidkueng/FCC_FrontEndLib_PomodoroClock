@@ -76,24 +76,22 @@ let pomodoroClock = (duration, display) => {
 
         timer--
 
-        // make inc dec buttons unclickable in this func
-
         if (timer < 0 && duration === sessionDuration) {
-            duration = timer = breakDuration;  
-            document.getElementById('timer-label').innerHTML = 'Break';                         
+            duration = timer = breakDuration;              
+            setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Break'; },1000)
             // document.getElementById('beep').play();
         } else if (timer < 0 && duration === breakDuration) {
-            duration = timer = sessionDuration;           
-            document.getElementById('timer-label').innerHTML = 'Session';            
+            duration = timer = sessionDuration;          
+            setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Session'; },1000)            
             // document.getElementById('beep').play();
         } else if (timer < 0 && duration === stoppedTime) {
             if (document.getElementById('timer-label').innerHTML === 'Session') {
-                duration = timer = breakDuration;  
-                document.getElementById('timer-label').innerHTML = 'Break';                               
+                duration = timer = breakDuration;                  
+                setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Break'; },1000)                              
                 // document.getElementById('beep').play();
             } else if (document.getElementById('timer-label').innerHTML === 'Break') {
-                duration = timer = sessionDuration;                
-                document.getElementById('timer-label').innerHTML = 'Session';                
+                duration = timer = sessionDuration;            
+                setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Session'; },1000)            
                 // document.getElementById('beep').play();
             }
         }    
@@ -120,17 +118,18 @@ document.getElementById('reset').addEventListener('click', () => {
     sessionMinutes = 25;
     breakMinutes = 5;
     document.getElementById('time-left').innerHTML = sessionMinutes + ':' + 0+0;
+    document.getElementById('timer-label').innerHTML = 'Session'  
     document.getElementById('session-length').innerHTML = sessionMinutes;
     document.getElementById('break-length').innerHTML = breakMinutes;
-    timer = duration = sessionDuration;
+    timer = duration = sessionDuration = 1500;
+    breakDuration = 300;
     document.getElementById('beep').pause();
-    document.getElementById('beep').currentTime = 0;
-    document.getElementById('timer-label').innerHTML = 'Session'   
+    document.getElementById('beep').currentTime = 0;     
 });
 
 
 // ===========
 // TODOS:
-// refactor everything! (with a classes maybe)
+// refactor everything! (with a classes / switch statemens maybe)
 // make inc/dec unclickable if timer is running
-// use minutes only once in pomodoroClock func
+// fix user stories 12-15
