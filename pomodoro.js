@@ -2,8 +2,8 @@ let sessionMinutes = 25,
     breakMinutes = 5,
     displaySeconds = 0;
 
-let sessionDuration = 60 * sessionMinutes,
-    breakDuration = 60 * breakMinutes;
+let sessionDuration = 0.2 * sessionMinutes,
+    breakDuration = 0.4 * breakMinutes;
 
 displaySeconds = displaySeconds < 10 ? "0" + displaySeconds : displaySeconds;
 
@@ -76,22 +76,30 @@ let pomodoroClock = (duration, display) => {
 
         timer--
 
-        if (timer < 0 && duration === sessionDuration) {
-            duration = timer = breakDuration;              
-            setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Break'; },1000)
+        if (timer === -2 && duration === sessionDuration) {
+            clearInterval(interval) 
+            document.getElementById('timer-label').innerHTML = 'Break';           
+            pomodoroClock(breakDuration, document.querySelector('#time-left'))
             // document.getElementById('beep').play();
-        } else if (timer < 0 && duration === breakDuration) {
-            duration = timer = sessionDuration;          
-            setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Session'; },1000)            
+        } else if (timer === -2 && duration === breakDuration) {
+            // duration = sessionDuration;   
+            // timer = sessionDuration;     
+            clearInterval(interval) 
+            document.getElementById('timer-label').innerHTML = 'Session';           
+            pomodoroClock(sessionDuration, document.querySelector('#time-left'))                           
             // document.getElementById('beep').play();
-        } else if (timer < 0 && duration === stoppedTime) {
+        } else if (timer === -2 && duration === stoppedTime) {
             if (document.getElementById('timer-label').innerHTML === 'Session') {
-                duration = timer = breakDuration;                  
-                setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Break'; },1000)                              
+                // duration = timer = breakDuration;                  
+                clearInterval(interval) 
+                document.getElementById('timer-label').innerHTML = 'Break';           
+                pomodoroClock(breakDuration, document.querySelector('#time-left'))                            
                 // document.getElementById('beep').play();
             } else if (document.getElementById('timer-label').innerHTML === 'Break') {
-                duration = timer = sessionDuration;            
-                setTimeout(()=>{document.getElementById('timer-label').innerHTML = 'Session'; },1000)            
+                // duration = timer = sessionDuration;            
+                clearInterval(interval) 
+                document.getElementById('timer-label').innerHTML = 'Session';           
+                pomodoroClock(sessionDuration, document.querySelector('#time-left'))             
                 // document.getElementById('beep').play();
             }
         }    
